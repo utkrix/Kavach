@@ -15,6 +15,7 @@ class newpass : public QDialog
 public:
     explicit newpass(QWidget *parent = nullptr);
     ~newpass();
+    void mongoConnect();
 
 
 private slots:

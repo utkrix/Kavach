@@ -63,6 +63,10 @@ void newpass::on_savepw_clicked()
         // strength checker:
         strPass = pass.toStdString();
         strengthCheck(pass);
+
+        // mongodb connection-
+
+
     }
     else{
         qDebug() << "Password no match!";
@@ -89,12 +93,20 @@ void  newpass::strengthCheck(QString str){
         if (!currentChar.isLetterOrNumber())
             special = 1;
     }
+    // progress bar -
 
-    if(l_case && u_case && digit && special && l>=8)
+    if(l_case && u_case && digit && special && l>=10)
         qDebug() <<"Strong password.";
-    else if((l_case+u_case+digit+special>=3) && l>=6)
+
+    else if((l_case+u_case+digit+special>=3) && l>=8)
         qDebug() <<"Moderate password";
     else
         qDebug() <<"Weak password";
+
+
+}
+
+void mongoConnect(){
+    string atlas, url, env;
 
 }
