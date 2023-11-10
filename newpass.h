@@ -3,6 +3,7 @@
 
 #include <QDialog>
 
+using namespace std;
 namespace Ui {
 class newpass;
 }
@@ -15,9 +16,18 @@ public:
     explicit newpass(QWidget *parent = nullptr);
     ~newpass();
 
+
 private slots:
 
+    void  strengthCheck(QString str);
+
+
     void on_generatePW_clicked();
+
+
+    void on_savepw_clicked();
+
+
 
 
 private:

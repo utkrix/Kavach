@@ -9,7 +9,9 @@
 #include <QClipboard>
 #include <QApplication>
 #include <QMessageBox>
-
+#include <ctype.h>
+#include <cctype>
+#include <QChar>
 
 using namespace std;
 
@@ -44,8 +46,55 @@ void newpass::on_generatePW_clicked()
 
     QMessageBox::information(this, "Password Copied", "Password copied to clipboard: " + password);
 
+}
+
+
+
+void newpass::on_savepw_clicked()
+{
+    QString userName = ui->username->text();
+    QString pass = ui->pass->text();
+    QString passConf = ui->passConf->text();
+    QString site = ui->site->text();
+    string strPass;
+    if(pass == passConf)
+    {
+        qDebug() << "Password matches!";
+        // strength checker:
+        strPass = pass.toStdString();
+        strengthCheck(pass);
+    }
+    else{
+        qDebug() << "Password no match!";
+    }
+
 
 
 }
 
+void  newpass::strengthCheck(QString str){
+    int l_case=0, u_case=0, digit=0, special=0;
 
+    int l=str.length(),i;
+
+    for (i = 0; i < l; i++) {
+        QChar currentChar = str[i];
+
+        if (currentChar.isLower())
+            l_case = 1;
+        if (currentChar.isUpper())
+            u_case = 1;
+        if (currentChar.isDigit())
+            digit = 1;
+        if (!currentChar.isLetterOrNumber())
+            special = 1;
+    }
+
+    if(l_case && u_case && digit && special && l>=8)
+        qDebug() <<"Strong password.";
+    else if((l_case+u_case+digit+special>=3) && l>=6)
+        qDebug() <<"Moderate password";
+    else
+        qDebug() <<"Weak password";
+
+}
