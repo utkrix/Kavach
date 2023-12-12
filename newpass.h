@@ -31,6 +31,8 @@ private slots:
 
 
 
+    void on_savepw_2_clicked();
+
 private:
     Ui::newpass *ui;
 };

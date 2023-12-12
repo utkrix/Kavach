@@ -57,19 +57,23 @@ void newpass::on_savepw_clicked()
     QString passConf = ui->passConf->text();
     QString site = ui->site->text();
     string strPass;
+
+    if ((ui->username->text().isEmpty()) or  (ui->pass->text().isEmpty()) or (ui->site->text().isEmpty()))
+    {
+        QMessageBox::information(this,  "Error", "Some fields are missing!");
+    }
     if(pass == passConf)
     {
-        qDebug() << "Password matches!";
+
         // strength checker:
         strPass = pass.toStdString();
         strengthCheck(pass);
 
-        // mongodb connection-
-
+        // db connection
 
     }
     else{
-        qDebug() << "Password no match!";
+        QMessageBox::information(this,  "Error", "Password do not match!");
     }
 
 
@@ -93,15 +97,15 @@ void  newpass::strengthCheck(QString str){
         if (!currentChar.isLetterOrNumber())
             special = 1;
     }
-    // progress bar -
+    // strength checking
 
     if(l_case && u_case && digit && special && l>=10)
-        qDebug() <<"Strong password.";
+        ui->strengthDisplay->setText("<font color='green'>Strong password!</font>");
 
     else if((l_case+u_case+digit+special>=3) && l>=8)
-        qDebug() <<"Moderate password";
+        ui->strengthDisplay->setText("<font color='blue'>Moderate strength; consider a strong one!</font>");
     else
-        qDebug() <<"Weak password";
+        ui->strengthDisplay->setText("<font color='red'>Weak password; please use a strong password!</font>");
 
 
 }
@@ -110,3 +114,10 @@ void mongoConnect(){
     string atlas, url, env;
 
 }
+
+void newpass::on_savepw_2_clicked()
+{
+    // go to landing
+
+}
+

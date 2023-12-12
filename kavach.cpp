@@ -23,12 +23,11 @@ void Kavach::on_newPw_clicked()
     newPass = new newpass(this);
     hide();
     newPass->show();
-    cout << "clicked" <<endl;
 }
-
 
 void Kavach::on_oldPw_clicked()
 {
+    //saved passwords view
 
 }
 
