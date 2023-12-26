@@ -12,6 +12,7 @@
 #include <ctype.h>
 #include <cctype>
 #include <QChar>
+#include "sqlite3.h"
 
 using namespace std;
 
@@ -20,7 +21,17 @@ newpass::newpass(QWidget *parent) :
     ui(new Ui::newpass)
 {
     ui->setupUi(this);
-}
+
+    QSqlDatabase mydb = QSqlDatabase::addDatabase("QSQLITE");
+    mydb.setDatabaseName("C:/Users/USER/Documents/Kavach/db/cred.db");
+    mydb.open();
+
+
+    if (!mydb.open())
+        ui-> lable -> setText("Not Connected");
+    else
+        ui->lable->setText("Connected to db!");
+ }
 
 newpass::~newpass()
 {
@@ -70,6 +81,7 @@ void newpass::on_savepw_clicked()
         strengthCheck(pass);
 
         // db connection
+
 
     }
     else{

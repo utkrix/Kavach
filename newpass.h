@@ -2,6 +2,13 @@
 #define NEWPASS_H
 
 #include <QDialog>
+#include <QtSql>
+#include<QtCore>
+#include<QFileInfo>
+#include<QDebug>
+
+
+
 
 using namespace std;
 namespace Ui {
@@ -35,6 +42,8 @@ private slots:
 
 private:
     Ui::newpass *ui;
+
+    QSqlDatabase mydb;
 };
 
 #endif // NEWPASS_H

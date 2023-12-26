@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "newpass.h"
 
+
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class Kavach; }
 QT_END_NAMESPACE

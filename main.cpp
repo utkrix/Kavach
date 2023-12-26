@@ -1,6 +1,9 @@
 #include "kavach.h"
 
 #include <QApplication>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 
 int main(int argc, char *argv[])
 {

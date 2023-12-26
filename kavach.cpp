@@ -2,6 +2,7 @@
 #include "./ui_kavach.h"
 #include <iostream>
 
+
 using namespace std;
 
 
@@ -10,6 +11,7 @@ Kavach::Kavach(QWidget *parent)
     , ui(new Ui::Kavach)
 {
     ui->setupUi(this);
+
 }
 
 Kavach::~Kavach()
