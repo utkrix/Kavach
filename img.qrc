@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>Data_security_05.jpg</file>
+        <file>../show-password(1).png</file>
+    </qresource>
+</RCC>
