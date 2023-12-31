@@ -22,12 +22,12 @@ class newpass : public QDialog
 public:
     explicit newpass(QWidget *parent = nullptr);
     ~newpass();
-    void mongoConnect();
+
 
 
 private slots:
 
-    void  strengthCheck(QString str);
+    void  strengthCheck(QString username, QString password, QString site);
 
 
     void on_generatePW_clicked();
@@ -43,7 +43,7 @@ private slots:
 private:
     Ui::newpass *ui;
 
-    QSqlDatabase mydb;
+    QSqlDatabase db;
 };
 
 #endif // NEWPASS_H
