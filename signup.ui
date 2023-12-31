@@ -248,37 +248,10 @@ background-color:rgb(102, 0, 204);
      <string>Cancel</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="show_password">
-    <property name="geometry">
-     <rect>
-      <x>810</x>
-      <y>350</y>
-      <width>51</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius:2px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="img.qrc">
-      <normaloff>:/res/show-password(1).png</normaloff>:/res/show-password(1).png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>20</width>
-      <height>20</height>
-     </size>
-    </property>
-   </widget>
   </widget>
  </widget>
  <resources>
   <include location="images.qrc"/>
-  <include location="img.qrc"/>
  </resources>
  <connections/>
 </ui>

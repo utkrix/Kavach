@@ -12,17 +12,21 @@ SOURCES += \
     main.cpp \
     kavach.cpp \
     newpass.cpp \
-    savedpw.cpp
+    savedpw.cpp \
+    signup.cpp
 
 HEADERS += \
     kavach.h \
     newpass.h \
-    savedpw.h
+    savedpw.h \
+    signup.h
 
 FORMS += \
     kavach.ui \
+    mainwindow.ui \
     newpass.ui \
-    savedpw.ui
+    savedpw.ui \
+    signup.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -30,4 +34,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    image.qrc
+    image.qrc \
+    images.qrc \
+    img.qrc

@@ -1,5 +1,6 @@
 #include "kavach.h"
 #include "./ui_kavach.h"
+#include "savedpw.h"
 #include <iostream>
 
 
@@ -29,7 +30,9 @@ void Kavach::on_newPw_clicked()
 
 void Kavach::on_oldPw_clicked()
 {
-    //saved passwords view
+    savedPw = new savedpw(this);
+    hide();
+    savedPw->show();
 
 }
 

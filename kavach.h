@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "newpass.h"
+#include"savedpw.h"
 
 
 
@@ -28,5 +29,7 @@ private:
     Ui::Kavach *ui;
 
     newpass *newPass;
+
+    savedpw *savedPw;
 };
 #endif // KAVACH_H
