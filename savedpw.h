@@ -1,8 +1,10 @@
 #ifndef SAVEDPW_H
 #define SAVEDPW_H
 
+#include "qlabel.h"
 #include <QDialog>
 #include <QSqlDatabase>
+
 
 namespace Ui {
 class savedpw;
@@ -21,9 +23,18 @@ public:
 private:
     Ui::savedpw *ui;
     QSqlDatabase db;
+    QLabel *SiteLabel;
+    QLabel *UsernameLabel;
+    QLabel *PasswordLabel;
+
+
+
+
 
 public slots:
     void retrieveAndDisplayPasswords();
+
+
 };
 
 #endif // SAVEDPW_H

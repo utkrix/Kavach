@@ -1,6 +1,5 @@
 #include "kavach.h"
 #include "./ui_kavach.h"
-#include "savedpw.h"
 #include <iostream>
 
 

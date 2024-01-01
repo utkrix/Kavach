@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    customtablemodel.cpp \
     main.cpp \
     kavach.cpp \
     mainwindow.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
     signup.cpp
 
 HEADERS += \
+    customtablemodel.h \
     kavach.h \
     mainwindow.h \
     newpass.h \

@@ -1,6 +1,6 @@
-#include <QtGlobal>
-#include "ui_savedpw.h"
 #include "savedpw.h"
+#include "qboxlayout.h"
+#include "ui_savedpw.h"
 #include <QFile>
 #include <QSqlQuery>
 #include <QByteArray>
@@ -9,15 +9,16 @@
 #include <QCryptographicHash>
 #include <QSqlError>
 #include <QDir>
-#include <QTableWidgetItem>
-#include <QApplication>
+#include <QCoreApplication>
+#include <QClipboard>
+
 
 
 savedpw::savedpw(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::savedpw)
 {
-    ui->setupUi(this);
+
     // Directory paths
     QString directoryPath = QCoreApplication::applicationDirPath() + QDir::separator() + "database";
     QString databasePath = directoryPath + QDir::separator() + "database.db";
@@ -28,6 +29,33 @@ savedpw::savedpw(QWidget *parent) :
 
     ui->setupUi(this);
     qDebug() << "SAVED PW";
+
+
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    SiteLabel = new QLabel(this);
+    SiteLabel->setText("Site Name:");
+    SiteLabel->setFont(QFont("Times New Roman", 18));
+    SiteLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);  // Enable text selection and link activation
+
+
+
+    UsernameLabel = new QLabel(this);
+    UsernameLabel->setText("Username:");
+    UsernameLabel->setFont(QFont("Times New Roman", 18));
+    UsernameLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+
+    PasswordLabel = new QLabel(this);
+    PasswordLabel->setText("Password:");
+    PasswordLabel->setFont(QFont("Times New Roman", 18));
+    PasswordLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+    layout->addWidget(SiteLabel);
+    layout->addWidget(UsernameLabel);
+    layout->addWidget(PasswordLabel);
+    layout->setAlignment(Qt::AlignTop);
+
+
 
     // Open the database
     db = QSqlDatabase::addDatabase("QSQLITE");
@@ -40,6 +68,7 @@ savedpw::savedpw(QWidget *parent) :
     }
 }
 
+
 savedpw::~savedpw()
 {
     delete ui;
@@ -49,8 +78,16 @@ QByteArray savedpw::decryptPassword(const QByteArray &encryptedPassword, const Q
     // Use cryptographic hash to derive a key from the encryption key
     QByteArray derivedKey = QCryptographicHash::hash(encryptionKey, QCryptographicHash::Sha256);
 
+    qDebug() << "Encrypted Password Length:" << encryptedPassword.length();
+    qDebug() << "Derived Key Length:" << derivedKey.length();
+
     // Convert the hex-encoded encrypted password back to QByteArray
     QByteArray encryptedData = QByteArray::fromHex(encryptedPassword);
+
+    if (derivedKey.size() != 32) {
+        qWarning() << "Derived key has unexpected size:" << derivedKey.size();
+        return QByteArray();  // Return an empty QByteArray to indicate an error
+    }
 
     // Use XOR operation to decrypt the password
     QByteArray decryptedPassword;
@@ -58,11 +95,20 @@ QByteArray savedpw::decryptPassword(const QByteArray &encryptedPassword, const Q
         decryptedPassword.append(encryptedData.at(i) ^ derivedKey.at(i % derivedKey.size()));
     }
 
-    return decryptedPassword;
+    QString decryptedString = QString::fromUtf8(decryptedPassword);
+
+    qDebug() << "Decrypted Password Length:" << decryptedPassword.length();
+    qDebug() << "Decrypted Password:" << decryptedString;
+
+    return decryptedString.toUtf8();;
 }
 
 void savedpw::retrieveAndDisplayPasswords() {
+
     // Retrieve passwords from the database
+
+
+    QString siteNames, userNames, dePassword;
     QSqlQuery query("SELECT username, site, password FROM credentials");
     while (query.next()) {
         QString username = query.value(0).toString();
@@ -85,22 +131,23 @@ void savedpw::retrieveAndDisplayPasswords() {
         qDebug() << "Username:" << username;
         qDebug() << "Site:" << site;
         qDebug() << "Encrypted Password:" << encryptedPassword;
-        qDebug() << "Encryption Key:" << encryptionKey;
+
+        siteNames += site + "\n";
+        userNames += username + "\n";
+
+
 
         // Decrypt the password
         QByteArray encryptedPasswordBytes = encryptedPassword.toUtf8();
         QByteArray decryptedPassword = decryptPassword(encryptedPasswordBytes, encryptionKey);
         qDebug() << "Decrypted Password:" << decryptedPassword;
 
-        // Display the decrypted password in your UI (modify as needed)
-        QTableWidgetItem *itemSite = new QTableWidgetItem(site);
-        QTableWidgetItem *itemUsername = new QTableWidgetItem(username);
-        QTableWidgetItem *itemPassword = new QTableWidgetItem(decryptedPassword);
+        dePassword += decryptedPassword + "\n";
 
-        int row = ui->tableWidget->rowCount();
-        ui->tableWidget->insertRow(row);
-        ui->tableWidget->setItem(row, 0, itemSite);
-        ui->tableWidget->setItem(row, 1, itemUsername);
-        ui->tableWidget->setItem(row, 2, itemPassword);
+
     }
+
+    SiteLabel->setText("Site:\n \n" + siteNames.trimmed());
+    UsernameLabel->setText("Username:\n \n" + userNames.trimmed());
+    PasswordLabel->setText("Password:\n \n" + dePassword.trimmed());
 }
