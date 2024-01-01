@@ -11,15 +11,19 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     kavach.cpp \
+    mainwindow.cpp \
     newpass.cpp \
     savedpw.cpp \
     signup.cpp
 
 HEADERS += \
     kavach.h \
+    mainwindow.h \
     newpass.h \
     savedpw.h \
-    signup.h
+    signup.h \
+    ui_savedpw.h \
+    ui_signup.h
 
 FORMS += \
     kavach.ui \

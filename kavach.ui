@@ -88,8 +88,8 @@ border:2px solid gray;</string>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>20</y>
+      <x>190</x>
+      <y>40</y>
       <width>381</width>
       <height>51</height>
      </rect>
@@ -110,9 +110,9 @@ border:2px solid gray;</string>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>130</x>
       <y>80</y>
-      <width>491</width>
+      <width>511</width>
       <height>61</height>
      </rect>
     </property>
@@ -123,7 +123,7 @@ border:2px solid gray;</string>
      </font>
     </property>
     <property name="text">
-     <string>          Kavach- Password Manger</string>
+     <string>          Kavach - Password Manger</string>
     </property>
    </widget>
   </widget>

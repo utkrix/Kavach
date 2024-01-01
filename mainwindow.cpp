@@ -2,32 +2,23 @@
 #include "ui_mainwindow.h"
 #include <QGuiApplication>
 #include <QScreen>
-#include<QRegularExpression>
-#include "signup.h"
-
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
 
     // Adjust the main window size based on the screen size
     QScreen *screen = QGuiApplication::primaryScreen();
     QSize screenSize = screen->geometry().size();
     resize(screenSize.width() * 0.8, screenSize.height() * 0.8);
 
-    // Other customizations based on screen size...
-
     // Connect signals and slots
     connect(ui->pushButton_Login, SIGNAL(clicked()), this, SLOT(on_pushButton_Login_clicked()));
     connect(ui->pushButton_Cancel, SIGNAL(clicked()), this, SLOT(on_pushButton_Cancel_clicked()));
-
-
-
-
+    connect(ui->pushButton_account, SIGNAL(clicked()), this, SLOT(on_pushButton_account_clicked()));
+    connect(ui->showpassword, SIGNAL(clicked()), this, SLOT(on_showpassword_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -40,46 +31,18 @@ void MainWindow::on_pushButton_Login_clicked()
     QString UserName = ui->line_UserName->text();
     QString Password = ui->line_Password->text();
 
-    if(UserName=="Nishant@2080" && Password== "qt@123")
-    {
-
-        QMessageBox::information(this,"Qt App Development","Login Sucess");
-
-    }
-    else {
-        QMessageBox::warning(this,"Qt App Development","Invalid username or Password");
-
-    }
-
-    }
-
-
+    // login logic - check from database
+}
 
 void MainWindow::on_pushButton_Cancel_clicked()
 {
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this,"Qt App Development","Are You sure want to exit?", QMessageBox::Yes | QMessageBox::No);
-    if(reply == QMessageBox::Yes)
+    reply = QMessageBox::question(this, "Qt App Development", "Are You sure want to exit?", QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes)
     {
         QApplication::quit();
     }
 }
-
- /*void MainWindow::on_pushButton_FullScreen_clicked()
-{
-    // Toggle between full-screen mode and normal mode
-    if (isFullScreen())
-    {
-        showNormal();
-    }
-    else
-    {
-        showFullScreen();
-
-        // Center the UI after going to full-screen mode
-        centerUI();
-    }
-} */
 
 void MainWindow::centerUI()
 {
@@ -89,17 +52,29 @@ void MainWindow::centerUI()
     move(screenGeometry.center() - rect().center());
 }
 
-
-
 void MainWindow::on_pushButton_account_clicked()
 {
-    signup =new Signup( this);
-    signup->show();
-}
+    qDebug() << "Button clicked - Opening Signup";
 
+    // Check if the signup window is already open
+    if (!signup)
+    {
+        signup = new Signup(this);  // Pass the correct parent (this) to the constructor
+        connect(signup, &Signup::destroyed, [=]() { signup = nullptr; });  // Handle window destruction
+        signup->show();
+        signup->activateWindow();
+    }
+    else
+    {
+        qDebug() << "Signup window is already open.";
+    }
+}
+void MainWindow::on_show_password_linkActivated(const QString &link)
+{
+    ui->line_Password->setEchoMode(QLineEdit::Normal);
+}
 
 void MainWindow::on_showpassword_clicked()
 {
     ui->line_Password->setEchoMode(QLineEdit::Normal);
 }
-

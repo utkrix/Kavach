@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1041</width>
-    <height>472</height>
+    <width>801</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -19,17 +19,6 @@
   <property name="windowTitle">
    <string>Add Password</string>
   </property>
-  <widget class="QWidget" name="layoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>0</y>
-     <width>401</width>
-     <height>84</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout"/>
-  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="enabled">
     <bool>true</bool>
@@ -38,13 +27,12 @@
     <rect>
      <x>10</x>
      <y>100</y>
-     <width>1021</width>
+     <width>781</width>
      <height>311</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">
-</string>
+    <string notr="true"/>
    </property>
    <property name="title">
     <string/>
@@ -52,8 +40,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>10</y>
+      <x>20</x>
+      <y>20</y>
       <width>136</width>
       <height>233</height>
      </rect>
@@ -148,8 +136,8 @@
    <widget class="QLabel" name="passStrength">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>260</y>
+      <x>40</x>
+      <y>270</y>
       <width>161</width>
       <height>21</height>
      </rect>
@@ -172,8 +160,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>140</y>
+      <x>590</x>
+      <y>150</y>
       <width>171</width>
       <height>31</height>
      </rect>
@@ -214,8 +202,8 @@ border:2px solid black;</string>
    <widget class="QLineEdit" name="pass">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>140</y>
+      <x>170</x>
+      <y>150</y>
       <width>411</width>
       <height>31</height>
      </rect>
@@ -242,8 +230,8 @@ border:2px solid black;</string>
    <widget class="QLineEdit" name="passConf">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>190</y>
+      <x>170</x>
+      <y>200</y>
       <width>411</width>
       <height>31</height>
      </rect>
@@ -264,8 +252,8 @@ border:2px solid black;</string>
    <widget class="QLineEdit" name="site">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>20</y>
+      <x>170</x>
+      <y>30</y>
       <width>411</width>
       <height>31</height>
      </rect>
@@ -286,8 +274,8 @@ border:2px solid black;</string>
    <widget class="QLineEdit" name="username">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>80</y>
+      <x>170</x>
+      <y>90</y>
       <width>411</width>
       <height>31</height>
      </rect>
@@ -334,7 +322,7 @@ border:2px solid black;</string>
   <widget class="QPushButton" name="savepw">
    <property name="geometry">
     <rect>
-     <x>800</x>
+     <x>550</x>
      <y>430</y>
      <width>80</width>
      <height>24</height>
@@ -351,7 +339,7 @@ border:2px solid gray;</string>
   <widget class="QPushButton" name="cancel">
    <property name="geometry">
     <rect>
-     <x>950</x>
+     <x>670</x>
      <y>430</y>
      <width>80</width>
      <height>24</height>
@@ -368,8 +356,8 @@ border:2px solid gray;</string>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>790</x>
-     <y>10</y>
+     <x>590</x>
+     <y>20</y>
      <width>101</width>
      <height>71</height>
     </rect>
@@ -412,8 +400,8 @@ border:2px solid gray;
   <widget class="QLabel" name="Lable">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>10</y>
+     <x>200</x>
+     <y>20</y>
      <width>399</width>
      <height>82</height>
     </rect>

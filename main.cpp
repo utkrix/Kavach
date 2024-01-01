@@ -1,5 +1,5 @@
-#include "kavach.h"
-
+#include"mainwindow.h"
+#include"kavach.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

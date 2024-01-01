@@ -12,6 +12,7 @@ Kavach::Kavach(QWidget *parent)
     , ui(new Ui::Kavach)
 {
     ui->setupUi(this);
+    mainwindow = new MainWindow(this);
 
 }
 

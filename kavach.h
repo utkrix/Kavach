@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "newpass.h"
 #include"savedpw.h"
+#include"mainwindow.h"
 
 
 
@@ -31,5 +32,7 @@ private:
     newpass *newPass;
 
     savedpw *savedPw;
+
+    MainWindow *mainwindow;
 };
 #endif // KAVACH_H

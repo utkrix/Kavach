@@ -1,5 +1,6 @@
-#include "savedpw.h"
+#include <QtGlobal>
 #include "ui_savedpw.h"
+#include "savedpw.h"
 #include <QFile>
 #include <QSqlQuery>
 #include <QByteArray>
@@ -8,11 +9,15 @@
 #include <QCryptographicHash>
 #include <QSqlError>
 #include <QDir>
+#include <QTableWidgetItem>
+#include <QApplication>
+
 
 savedpw::savedpw(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::savedpw)
 {
+    ui->setupUi(this);
     // Directory paths
     QString directoryPath = QCoreApplication::applicationDirPath() + QDir::separator() + "database";
     QString databasePath = directoryPath + QDir::separator() + "database.db";
@@ -86,6 +91,16 @@ void savedpw::retrieveAndDisplayPasswords() {
         QByteArray encryptedPasswordBytes = encryptedPassword.toUtf8();
         QByteArray decryptedPassword = decryptPassword(encryptedPasswordBytes, encryptionKey);
         qDebug() << "Decrypted Password:" << decryptedPassword;
+
+        // Display the decrypted password in your UI (modify as needed)
+        QTableWidgetItem *itemSite = new QTableWidgetItem(site);
+        QTableWidgetItem *itemUsername = new QTableWidgetItem(username);
+        QTableWidgetItem *itemPassword = new QTableWidgetItem(decryptedPassword);
+
+        int row = ui->tableWidget->rowCount();
+        ui->tableWidget->insertRow(row);
+        ui->tableWidget->setItem(row, 0, itemSite);
+        ui->tableWidget->setItem(row, 1, itemUsername);
+        ui->tableWidget->setItem(row, 2, itemPassword);
     }
 }
-
