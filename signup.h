@@ -3,6 +3,11 @@
 
 #include <QDialog>  // Include the necessary header
 #include<QMainWindow>
+#include <QtSql>
+#include <QDebug>
+#include <QFileInfo>
+#include <QMessageBox>
+
 namespace Ui {
 class Signup;
 }
@@ -15,16 +20,17 @@ public:
     explicit Signup(QWidget *parent = nullptr);
     ~Signup();
 
-protected:
-    void resizeEvent(QResizeEvent *event) override;
+
 
 private slots:
     void on_pushButton_create_clicked();
     void on_pushButton_cancel_clicked();
-    void on_show_password_clicked();
+
 
 private:
     Ui::Signup *ui;
+
+     QSqlDatabase DB;
 };
 
 #endif // SIGNUP_H

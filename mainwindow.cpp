@@ -2,23 +2,31 @@
 #include "ui_mainwindow.h"
 #include <QGuiApplication>
 #include <QScreen>
+#include<QRegularExpression>
+#include "signup.h"
+#include "kavach.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    : QMainWindow(parent)
+
+    , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
 
     // Adjust the main window size based on the screen size
     QScreen *screen = QGuiApplication::primaryScreen();
     QSize screenSize = screen->geometry().size();
     resize(screenSize.width() * 0.8, screenSize.height() * 0.8);
 
+    // Other customizations based on screen size...
+
     // Connect signals and slots
-    connect(ui->pushButton_Login, SIGNAL(clicked()), this, SLOT(on_pushButton_Login_clicked()));
     connect(ui->pushButton_Cancel, SIGNAL(clicked()), this, SLOT(on_pushButton_Cancel_clicked()));
-    connect(ui->pushButton_account, SIGNAL(clicked()), this, SLOT(on_pushButton_account_clicked()));
-    connect(ui->showpassword, SIGNAL(clicked()), this, SLOT(on_showpassword_clicked()));
+
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -28,21 +36,58 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_Login_clicked()
 {
-    QString UserName = ui->line_UserName->text();
-    QString Password = ui->line_Password->text();
+    QString username = ui->line_UserName->text();
+    QString password = ui->line_Password->text();
 
-    // login logic - check from database
+    QByteArray hashedUsername = QCryptographicHash::hash(username.toUtf8(), QCryptographicHash::Sha256).toHex();
+    QByteArray hashedPassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
+
+    QString encDirPath = QCoreApplication::applicationDirPath() + QDir::separator() + "random";
+    QString hashedPasswordPath = encDirPath + QDir::separator() + "hsdp.txt";
+
+    QFile hashedPasswordFile(hashedPasswordPath);
+    if (hashedPasswordFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream stream(&hashedPasswordFile);
+        QByteArray storedUsername = stream.readLine().trimmed().toUtf8(); // Convert QString to QByteArray
+        QByteArray storedHashedPassword = stream.readLine().trimmed().toUtf8(); // Convert QString to QByteArray
+        hashedPasswordFile.close();
+
+        qDebug() << "Input Hashed Username: " << hashedUsername;
+        qDebug() << "Input Hashed Password: " << hashedPassword;
+        qDebug() << "Stored Hashed Username: " << storedUsername;
+        qDebug() << "Stored Hashed Password: " << storedHashedPassword;
+
+        if (storedUsername == hashedUsername && storedHashedPassword == hashedPassword) {
+            qDebug() << "Login successful!";
+            this->close();
+            Kavach *kavach = new Kavach();
+            kavach->show();
+
+        } else {
+            qDebug() << "Login failed. Incorrect username or password.";
+            // Handle incorrect login
+        }
+    } else {
+        qDebug() << "Failed to open hashed password file for reading.";
+        // Handle file read error
+    }
 }
+
+
+
+
 
 void MainWindow::on_pushButton_Cancel_clicked()
 {
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Qt App Development", "Are You sure want to exit?", QMessageBox::Yes | QMessageBox::No);
-    if (reply == QMessageBox::Yes)
+    reply = QMessageBox::question(this,"Qt App Development","Are You sure want to exit?", QMessageBox::Yes | QMessageBox::No);
+    if(reply == QMessageBox::Yes)
     {
         QApplication::quit();
     }
 }
+
+
 
 void MainWindow::centerUI()
 {
@@ -52,29 +97,15 @@ void MainWindow::centerUI()
     move(screenGeometry.center() - rect().center());
 }
 
+
+
 void MainWindow::on_pushButton_account_clicked()
 {
-    qDebug() << "Button clicked - Opening Signup";
+    this->close();
 
-    // Check if the signup window is already open
-    if (!signup)
-    {
-        signup = new Signup(this);  // Pass the correct parent (this) to the constructor
-        connect(signup, &Signup::destroyed, [=]() { signup = nullptr; });  // Handle window destruction
-        signup->show();
-        signup->activateWindow();
-    }
-    else
-    {
-        qDebug() << "Signup window is already open.";
-    }
-}
-void MainWindow::on_show_password_linkActivated(const QString &link)
-{
-    ui->line_Password->setEchoMode(QLineEdit::Normal);
+    signup =new Signup();
+    signup->show();
+
 }
 
-void MainWindow::on_showpassword_clicked()
-{
-    ui->line_Password->setEchoMode(QLineEdit::Normal);
-}
+

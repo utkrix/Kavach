@@ -26,8 +26,7 @@ private slots:
     void on_pushButton_Login_clicked();
     void on_pushButton_Cancel_clicked();
     void on_pushButton_account_clicked();
-    void on_show_password_linkActivated(const QString &link);
-    void on_showpassword_clicked();  // Add this line
+
 
 private:
     Ui::MainWindow *ui;

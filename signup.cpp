@@ -1,8 +1,8 @@
 // signup.cpp
 
 #include "signup.h"
-#include "qevent.h"
 #include "ui_signup.h"
+#include "mainwindow.h"
 #include <QMessageBox>
 
 Signup::Signup(QWidget *parent)
@@ -10,10 +10,22 @@ Signup::Signup(QWidget *parent)
     , ui(new Ui::Signup)
 {
     ui->setupUi(this);
-    QPixmap originalPixmap("/home/nishant/Downloads/Password_Manager/login-bg.png"); // Replace with your image path
+    QPixmap originalPixmap("/login-bg.png"); // Replace with your image path
 
     // Set the original pixmap to the QLabel
     ui->imageLabel->setPixmap(originalPixmap);
+
+    QString path_to_database = QCoreApplication::applicationDirPath() + QDir::separator() + "database" + QDir::separator() + "database.db";
+    DB = QSqlDatabase::addDatabase("QSQLITE");
+    DB.setDatabaseName(path_to_database);
+
+    if(DB.open()) {
+        qDebug() << "Database connected.";
+    }
+    else {
+        qDebug() << "Database not connected.";
+        qDebug() << "Error: " << DB.lastError();
+    }
 }
 
 Signup::~Signup()
@@ -21,46 +33,56 @@ Signup::~Signup()
     delete ui;
 }
 
-void Signup::resizeEvent(QResizeEvent *event)
-{
-    QMainWindow::resizeEvent(event); // Call the base class's resizeEvent
 
-    // Get the new size of the window
-    QSize newSize = event->size();
-
-    // Scale the original pixmap to the new size
-    QPixmap scaledPixmap = ui->imageLabel->pixmap().scaled(newSize, Qt::KeepAspectRatio);
-
-    // Set the scaled pixmap to the QLabel
-    ui->imageLabel->setPixmap(scaledPixmap);
-}
 
 void Signup::on_pushButton_cancel_clicked()
 {
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Password Manager", "Are you sure want to cancel?", QMessageBox::Yes | QMessageBox::No);
+    reply = QMessageBox::question(this, "Kavach", "Are you sure want to cancel?", QMessageBox::Yes | QMessageBox::No);
     if (reply == QMessageBox::Yes)
     {
         QApplication::quit();
     }
 }
 
+
+
+
 void Signup::on_pushButton_create_clicked()
 {
-    QString UserName = ui->lineEdit->text();
-    QString Password = ui->lineEdit_2->text();
+    QString username = ui->lineEdit_username_2->text();
+    QString password = ui->lineEdit_password_2->text();
+    QString cpassword = ui->lineEdit_confirm_password->text();
 
-    if (UserName == "Nishant@2080" && Password == "qt@123")
-    {
-        QMessageBox::information(this, "Password Manager", "Account Succesfully Created");
-    }
-    else
-    {
-        QMessageBox::warning(this, "Qt App Development", "Invalid username or Password");
+    QByteArray hashedUsername = QCryptographicHash::hash(username.toUtf8(), QCryptographicHash::Sha256).toHex();
+    QByteArray hashedPassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
+
+    QString encDirPath = QCoreApplication::applicationDirPath() + QDir::separator() + "random";
+    QString hashedPasswordPath = encDirPath + QDir::separator() + "hsdp.txt";
+
+    QFile hashedPasswordFile(hashedPasswordPath);
+
+    if (!hashedPasswordFile.exists()) {
+        if (hashedPasswordFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream stream(&hashedPasswordFile);
+            stream << hashedUsername << "\n" << hashedPassword;
+            hashedPasswordFile.close();
+
+            qDebug() << "Hashed username and password saved to:" << hashedPasswordPath;
+            QMessageBox::information(this, "Account Created", "Account Created Successfully! ");
+            MainWindow *mainWindow = new MainWindow();  // Create an instance of the login page
+            mainWindow->show();
+            this->close();
+        } else {
+            qDebug() << "Failed to open hashed password file for writing.";
+        }
+    } else {
+        qDebug() << "Hashed password file already exists. Please proceed with login.";
+        QMessageBox::warning(this, "Error", "Account already exists!");
+        MainWindow *mainWindow = new MainWindow();  // Create an instance of the login page
+        mainWindow->show();
+        this->close();
     }
 }
 
-void Signup::on_show_password_clicked()
-{
-    ui->lineEdit_2->setEchoMode(QLineEdit::Normal);
-}
+
