@@ -18,6 +18,7 @@
 #include <QFile>
 #include <QIODevice>
 #include <QDir>
+#include"kavach.h"
 
 using namespace std;
 
@@ -307,7 +308,10 @@ void  newpass::strengthCheck( QString username,QString password, QString site)
         if (query.exec())
         {
             // Password saved successfully
-            qDebug() << "Password saved!";
+            QMessageBox::information(this, "Password Saved!", "Password Saved Successfully!");
+            this->hide();
+            Kavach *kavachWindow = new Kavach(this);  // Assuming the 'this' pointer is a valid parent
+            kavachWindow->show();
         }
         else
         {
@@ -325,15 +329,24 @@ void  newpass::strengthCheck( QString username,QString password, QString site)
          }
         else{
             qDebug() << "Saving password";
-            // save to db
-        }
-    }
+         }
 }
-
+}
 
 void newpass::on_savepw_2_clicked()
 {
-    // go to landing
+this->hide();
+Kavach *kavachWindow = new Kavach(this);  // Assuming the 'this' pointer is a valid parent
+kavachWindow->show();
 
+}
+
+
+void newpass::on_cancel_clicked()
+{
+ui->username->clear();
+ui->pass->clear();
+ui->passConf->clear();
+ui->site->clear();
 }
 

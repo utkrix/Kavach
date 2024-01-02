@@ -10,6 +10,7 @@
 
 
 
+
 using namespace std;
 namespace Ui {
 class newpass;
@@ -39,6 +40,8 @@ private slots:
 
 
     void on_savepw_2_clicked();
+
+    void on_cancel_clicked();
 
 private:
     Ui::newpass *ui;

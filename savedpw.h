@@ -33,6 +33,8 @@ private:
 
 public slots:
     void retrieveAndDisplayPasswords();
+    void on_backButton_clicked();
+
 
 
 };

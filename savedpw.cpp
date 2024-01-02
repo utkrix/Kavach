@@ -11,7 +11,20 @@
 #include <QDir>
 #include <QCoreApplication>
 #include <QClipboard>
+#include <QPushButton>
+#include "kavach.h"
+#include<QHBoxLayout>
 
+#include<QVBoxLayout>
+
+
+void savedpw::on_backButton_clicked()
+{
+    // Hide the current window (savedpw) and show the Kavach window
+    this->hide();
+    Kavach *kavachWindow = new Kavach(this);  // Assuming the 'this' pointer is a valid parent
+    kavachWindow->show();
+}
 
 
 savedpw::savedpw(QWidget *parent) :
@@ -28,33 +41,56 @@ savedpw::savedpw(QWidget *parent) :
     QString encPath = encDirPath + QDir::separator() + "enc.txt";
 
     ui->setupUi(this);
+
     qDebug() << "SAVED PW";
 
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    // Labels layout
+    QHBoxLayout *labelsLayout = new QHBoxLayout();
+
     SiteLabel = new QLabel(this);
     SiteLabel->setText("Site Name:");
     SiteLabel->setFont(QFont("Times New Roman", 18));
-    SiteLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);  // Enable text selection and link activation
-
-
+    SiteLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     UsernameLabel = new QLabel(this);
     UsernameLabel->setText("Username:");
     UsernameLabel->setFont(QFont("Times New Roman", 18));
     UsernameLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
-
     PasswordLabel = new QLabel(this);
     PasswordLabel->setText("Password:");
     PasswordLabel->setFont(QFont("Times New Roman", 18));
     PasswordLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
-    layout->addWidget(SiteLabel);
-    layout->addWidget(UsernameLabel);
-    layout->addWidget(PasswordLabel);
-    layout->setAlignment(Qt::AlignTop);
+    labelsLayout->addWidget(SiteLabel);
+    labelsLayout->addWidget(UsernameLabel);
+    labelsLayout->addWidget(PasswordLabel);
 
+    mainLayout->addLayout(labelsLayout);
+
+    // Passwords layout
+    QVBoxLayout *passwordsLayout = new QVBoxLayout();
+
+    // Assuming you have a QStringList with passwords
+    QStringList passwords; // Replace this with your actual data
+
+    for (const QString &password : passwords) {
+        QLabel *passwordLabel = new QLabel(password, this);
+        passwordLabel->setFont(QFont("Times New Roman", 18));
+        passwordLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+        passwordsLayout->addWidget(passwordLabel);
+    }
+
+    mainLayout->addLayout(passwordsLayout);
+
+    // Back button
+    QPushButton* backButton = new QPushButton("Back", this);
+    backButton->setFont(QFont("Times New Roman", 18));
+    connect(backButton, &QPushButton::clicked, this, &savedpw::on_backButton_clicked);
+
+    mainLayout->addWidget(backButton, 0, Qt::AlignBottom);
 
 
     // Open the database

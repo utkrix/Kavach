@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QSqlDatabase>
 
 namespace Ui {
 class Signup;

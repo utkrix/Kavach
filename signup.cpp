@@ -4,6 +4,11 @@
 #include "ui_signup.h"
 #include "mainwindow.h"
 #include <QMessageBox>
+#include <QDir>
+#include <QFile>
+#include <QDebug>
+#include <QDateTime>
+
 
 Signup::Signup(QWidget *parent)
     : QMainWindow(parent)
@@ -15,7 +20,40 @@ Signup::Signup(QWidget *parent)
     // Set the original pixmap to the QLabel
     ui->imageLabel->setPixmap(originalPixmap);
 
-    QString path_to_database = QCoreApplication::applicationDirPath() + QDir::separator() + "database" + QDir::separator() + "database.db";
+    QString path_to_database = QCoreApplication::applicationDirPath() + QDir::separator() + "database";
+    QDir databaseDir(path_to_database);
+    if (!databaseDir.exists()) {
+        qDebug() << "Creating database directory...";
+        if (databaseDir.mkpath(path_to_database)) {
+            qDebug() << "Database directory created successfully.";
+        } else {
+            qWarning() << "Failed to create database directory.";
+        }
+    }
+
+    QString pathToDatabaseFile = path_to_database + QDir::separator() + "database.db";
+    if (!QFile::exists(pathToDatabaseFile)) {
+        qDebug() << "Creating database file...";
+        QFile databaseFile(pathToDatabaseFile);
+        if (databaseFile.open(QIODevice::ReadWrite)) {
+            qDebug() << "Database file created successfully.";
+            databaseFile.close();
+        } else {
+            qWarning() << "Failed to create database file.";
+        }
+    }
+
+    // Check if the random directory exists
+    QString encDirPath = QCoreApplication::applicationDirPath() + QDir::separator() + "random";
+    QDir encDir(encDirPath);
+    if (!encDir.exists()) {
+        qDebug() << "Creating random directory...";
+        if (encDir.mkpath(encDirPath)) {
+            qDebug() << "Random directory created successfully.";
+        } else {
+            qWarning() << "Failed to create random directory.";
+        }
+    }
     DB = QSqlDatabase::addDatabase("QSQLITE");
     DB.setDatabaseName(path_to_database);
 
